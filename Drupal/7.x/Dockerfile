@@ -16,8 +16,18 @@ RUN set -eux; \
 		libpng-dev \
 		libpq-dev \
 		libzip-dev \
+    wget \
+    software-properties-common \
+    gnupg \
 	; \
+	add-apt-repository "$(wget -qO- https://packages.microsoft.com/config/ubuntu/16.04/mssql-server-2019.list)"; \
+	add-apt-repository "$(wget -qO- https://packages.microsoft.com/config/ubuntu/16.04/prod.list)"; \
+	wget -qO- https://packages.microsoft.com/keys/microsoft.asc | apt-key add -; \
+	apt-get update; \
+	ACCEPT_EULA=Y apt-get install -y -qq mssql-server mssql-tools unixodbc-dev; \
 	\
+	pecl channel-update pecl.php.net; \
+	pecl install sqlsrv pdo_sqlsrv; \
 	docker-php-ext-configure gd \
 		--with-freetype \
 		--with-jpeg=/usr \
@@ -26,8 +36,8 @@ RUN set -eux; \
 	docker-php-ext-install -j "$(nproc)" \
 		gd \
 		opcache \
-		pdo_mysql \
-		pdo_pgsql \
+    sqlsrv \
+    pdo_sqlsrv \
 		zip \
 	; \
 	\
@@ -56,12 +66,10 @@ RUN { \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
 # https://www.drupal.org/node/3060/release
-ENV DRUPAL_VERSION 7.80
-ENV DRUPAL_MD5 cfbbc4cde2782f4e7298db3991ca6f56
+ENV DRUPAL_VERSION 7.x
 
 RUN set -eux; \
 	curl -fSL "https://ftp.drupal.org/files/projects/drupal-7.x-dev.tar.gz" -o drupal.tar.gz; \
-	echo "${DRUPAL_MD5} *drupal.tar.gz" | md5sum -c -; \
 	tar -xz --strip-components=1 -f drupal.tar.gz; \
 	rm drupal.tar.gz; \
 	chown -R www-data:www-data sites modules themes
