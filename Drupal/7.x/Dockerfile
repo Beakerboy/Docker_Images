@@ -26,16 +26,14 @@ RUN set -eux; \
 	apt-get update; \
 	ACCEPT_EULA=Y apt-get install -y -qq mssql-server mssql-tools unixodbc-dev; \
 	\
+	pecl config-set extension_dir /usr/src/php/ext; \
+	pecl install sqlsrv pdo_sqlsrv; \
 	docker-php-ext-configure gd \
 		--with-freetype \
 		--with-jpeg=/usr \
 	; \
 	\
-	mkdir /usr/src/php/ext/sqlsrv; \
-	mkdir /usr/src/php/ext/pdo_sqlsrv; \
 	docker-php-ext-install -j "$(nproc)" \
-		sqlsrv \
-		pdo_sqlsrv \
 		gd \
 		opcache \
 		zip \
