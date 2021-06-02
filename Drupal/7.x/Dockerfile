@@ -27,13 +27,14 @@ RUN set -eux; \
 	ACCEPT_EULA=Y apt-get install -y -qq mssql-server mssql-tools unixodbc-dev; \
 	\
 	pecl channel-update pecl.php.net; \
-	pecl config-set php_dir /usr/src/php; \
 	pecl install sqlsrv pdo_sqlsrv; \
 	docker-php-ext-configure gd \
 		--with-freetype \
 		--with-jpeg=/usr \
 	; \
 	\
+	mkdir /usr/src/php/ext/sqlsrv; \
+	mkdir /usr/src/php/ext/pdo_sqlsrv; \
 	docker-php-ext-install -j "$(nproc)" \
 		gd \
 		opcache \
