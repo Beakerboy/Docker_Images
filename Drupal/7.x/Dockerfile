@@ -16,9 +16,9 @@ RUN set -eux; \
 		libpng-dev \
 		libpq-dev \
 		libzip-dev \
-    wget \
-    software-properties-common \
-    gnupg \
+		wget \
+		software-properties-common \
+		gnupg \
 	; \
 	add-apt-repository "$(wget -qO- https://packages.microsoft.com/config/ubuntu/16.04/mssql-server-2019.list)"; \
 	add-apt-repository "$(wget -qO- https://packages.microsoft.com/config/ubuntu/16.04/prod.list)"; \
@@ -27,6 +27,7 @@ RUN set -eux; \
 	ACCEPT_EULA=Y apt-get install -y -qq mssql-server mssql-tools unixodbc-dev; \
 	\
 	pecl channel-update pecl.php.net; \
+	pecl config-set php_dir /usr/src/php; \
 	pecl install sqlsrv pdo_sqlsrv; \
 	docker-php-ext-configure gd \
 		--with-freetype \
@@ -36,8 +37,8 @@ RUN set -eux; \
 	docker-php-ext-install -j "$(nproc)" \
 		gd \
 		opcache \
-    sqlsrv \
-    pdo_sqlsrv \
+		sqlsrv \
+		pdo_sqlsrv \
 		zip \
 	; \
 	\
