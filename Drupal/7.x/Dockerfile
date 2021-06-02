@@ -26,7 +26,7 @@ RUN set -eux; \
 	apt-get update; \
 	ACCEPT_EULA=Y apt-get install -y -qq mssql-server mssql-tools unixodbc-dev; \
 	\
-	pecl config-set extension_dir /usr/src/php/ext; \
+	pecl config-set ext_dir /usr/src/php/ext; \
 	pecl install sqlsrv pdo_sqlsrv; \
 	docker-php-ext-configure gd \
 		--with-freetype \
