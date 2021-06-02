@@ -34,10 +34,10 @@ RUN set -eux; \
 	mkdir /usr/src/php/ext/sqlsrv; \
 	mkdir /usr/src/php/ext/pdo_sqlsrv; \
 	docker-php-ext-install -j "$(nproc)" \
-		gd \
-		opcache \
 		sqlsrv \
 		pdo_sqlsrv \
+		gd \
+		opcache \
 		zip \
 	; \
 	\
