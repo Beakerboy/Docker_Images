@@ -16,15 +16,7 @@ RUN set -eux; \
 		libpng-dev \
 		libpq-dev \
 		libzip-dev \
-		wget \
-		software-properties-common \
-		gnupg \
 	; \
-	add-apt-repository "$(wget -qO- https://packages.microsoft.com/config/ubuntu/16.04/mssql-server-2019.list)"; \
-	add-apt-repository "$(wget -qO- https://packages.microsoft.com/config/ubuntu/16.04/prod.list)"; \
-	wget -qO- https://packages.microsoft.com/keys/microsoft.asc | apt-key add -; \
-	apt-get update; \
-	ACCEPT_EULA=Y apt-get install -y -qq mssql-server mssql-tools unixodbc-dev; \
 	\
 	pecl config-set ext_dir /usr/src/php/ext; \
 	pecl install sqlsrv pdo_sqlsrv; \
