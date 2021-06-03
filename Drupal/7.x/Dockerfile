@@ -19,8 +19,6 @@ RUN set -eux; \
 		unixodbc-dev \
 	; \
 	\
-	pecl config-set ext_dir /usr/src/php/ext; \
-	pecl install sqlsrv pdo_sqlsrv; \
 	docker-php-ext-configure gd \
 		--with-freetype \
 		--with-jpeg=/usr \
@@ -29,6 +27,8 @@ RUN set -eux; \
 	docker-php-ext-install -j "$(nproc)" \
 		gd \
 		opcache \
+		sqlsrv \
+		pdo_sqlsrv \
 		zip \
 	; \
 	\
