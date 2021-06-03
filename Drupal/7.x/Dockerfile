@@ -1,3 +1,10 @@
+#
+# NOTE: THIS DOCKERFILE IS GENERATED VIA "apply-templates.sh"
+#
+# PLEASE DO NOT EDIT IT DIRECTLY.
+#
+
+# from https://www.drupal.org/docs/system-requirements/php-requirements
 FROM php:7.4-apache-buster
 
 # install the PHP extensions we need
@@ -16,7 +23,6 @@ RUN set -eux; \
 		libpng-dev \
 		libpq-dev \
 		libzip-dev \
-		unixodbc-dev \
 	; \
 	\
 	docker-php-ext-configure gd \
@@ -27,8 +33,8 @@ RUN set -eux; \
 	docker-php-ext-install -j "$(nproc)" \
 		gd \
 		opcache \
-		sqlsrv \
-		pdo_sqlsrv \
+		pdo_mysql \
+		pdo_pgsql \
 		zip \
 	; \
 	\
@@ -57,10 +63,16 @@ RUN { \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
 # https://www.drupal.org/node/3060/release
-ENV DRUPAL_VERSION 7.x
+ENV DRUPAL_VERSION 7.x-dev
+ENV DRUPAL_MD5 ca21e214b3de1453e71f2eb1ab182c3d
 
 RUN set -eux; \
-	curl -fSL "https://ftp.drupal.org/files/projects/drupal-7.x-dev.tar.gz" -o drupal.tar.gz; \
+	curl -fSL "https://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar.gz" -o drupal.tar.gz; \
+	echo "${DRUPAL_MD5} *drupal.tar.gz" | md5sum -c -; \
 	tar -xz --strip-components=1 -f drupal.tar.gz; \
 	rm drupal.tar.gz; \
 	chown -R www-data:www-data sites modules themes
+
+# vim:set ft=dockerfile:
+
+# vim:set ft=dockerfile:
