@@ -74,5 +74,3 @@ RUN set -eux; \
 	chown -R www-data:www-data sites modules themes
 
 # vim:set ft=dockerfile:
-
-# vim:set ft=dockerfile:
