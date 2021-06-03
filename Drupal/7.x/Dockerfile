@@ -33,6 +33,7 @@ RUN set -eux; \
 	docker-php-ext-install -j "$(nproc)" \
 		gd \
 		opcache \
+		sqlsrv \
 		pdo_mysql \
 		pdo_pgsql \
 		pdo_sqlsrv \
