@@ -30,6 +30,11 @@ RUN { \
 		echo 'opcache.fast_shutdown=1'; \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
+RUN { \
+		echo 'client_buffer_max_kb_size = 50240'; \
+		echo 'sqlsrv.ClientBufferMaxKBSize = 50240'; \
+	} > /usr/local/etc/php/conf.d/sqlsrv-recommended.ini
+
 # https://www.drupal.org/node/3060/release
 ENV DRUPAL_VERSION 7.x-dev
 
