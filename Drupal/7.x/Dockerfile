@@ -22,6 +22,7 @@ RUN apt-get update \
     && apt-get update \
     && apt-get -y --no-install-recommends install \
         unixodbc-dev \
+	gnupg \
         msodbcsql17
 
 RUN pecl install sqlsrv pdo_sqlsrv
