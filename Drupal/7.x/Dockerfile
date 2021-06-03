@@ -1,32 +1,9 @@
-#
-# NOTE: THIS DOCKERFILE IS GENERATED VIA "apply-templates.sh"
-#
-# PLEASE DO NOT EDIT IT DIRECTLY.
-#
-
 # from https://www.drupal.org/docs/system-requirements/php-requirements
 FROM php:7.4-apache-buster
 
-ENV ACCEPT_EULA=Y
+# grab a copy of install-php-extensions
+COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
 
-# Microsoft SQL Server Prerequisites
-RUN apt-get update \
-    && curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
-    && curl https://packages.microsoft.com/config/debian/9/prod.list \
-        > /etc/apt/sources.list.d/mssql-release.list \
-    && apt-get install -y --no-install-recommends \
-        locales \
-        apt-transport-https \
-    && echo "en_US.UTF-8 UTF-8" > /etc/locale.gen \
-    && locale-gen \
-    && apt-get update \
-    && apt-get -y --no-install-recommends install \
-        unixodbc-dev \
-	gnupg \
-        msodbcsql17
-
-RUN pecl install sqlsrv pdo_sqlsrv
-    
 # install the PHP extensions we need
 RUN set -eux; \
 	\
@@ -34,45 +11,14 @@ RUN set -eux; \
 		a2enmod rewrite; \
 	fi; \
 	\
-	savedAptMark="$(apt-mark showmanual)"; \
-	\
-	apt-get update; \
-	apt-get install -y --no-install-recommends \
-		libfreetype6-dev \
-		libjpeg-dev \
-		libpng-dev \
-		libpq-dev \
-		libzip-dev \
-	; \
-	\
-	docker-php-ext-configure gd \
-		--with-freetype \
-		--with-jpeg=/usr \
-	; \
-	\
-	docker-php-ext-install -j "$(nproc)" \
+	install-php-extensions \
 		gd \
 		opcache \
-		sqlsrv \
 		pdo_mysql \
 		pdo_pgsql \
-		pdo_sqlsrv \
 		zip \
-	; \
-	\
-# reset apt-mark's "manual" list so that "purge --auto-remove" will remove all build dependencies
-	apt-mark auto '.*' > /dev/null; \
-	apt-mark manual $savedAptMark; \
-	ldd "$(php -r 'echo ini_get("extension_dir");')"/*.so \
-		| awk '/=>/ { print $3 }' \
-		| sort -u \
-		| xargs -r dpkg-query -S \
-		| cut -d: -f1 \
-		| sort -u \
-		| xargs -rt apt-mark manual; \
-	\
-	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
-	rm -rf /var/lib/apt/lists/*
+		pdo_sqlsrv \
+	;
 
 # set recommended PHP.ini settings
 # see https://secure.php.net/manual/en/opcache.installation.php
@@ -85,11 +31,12 @@ RUN { \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
 # https://www.drupal.org/node/3060/release
-ENV DRUPAL_VERSION 7.x-dev
+ENV DRUPAL_VERSION 7.81
 ENV DRUPAL_MD5 ca21e214b3de1453e71f2eb1ab182c3d
 
 RUN set -eux; \
 	curl -fSL "https://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar.gz" -o drupal.tar.gz; \
+	echo "${DRUPAL_MD5} *drupal.tar.gz" | md5sum -c -; \
 	tar -xz --strip-components=1 -f drupal.tar.gz; \
 	rm drupal.tar.gz; \
 	chown -R www-data:www-data sites modules themes
