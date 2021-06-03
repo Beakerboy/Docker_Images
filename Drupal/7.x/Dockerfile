@@ -39,4 +39,16 @@ RUN set -eux; \
 	rm drupal.tar.gz; \
 	chown -R www-data:www-data sites modules themes
 
+RUN apt-get update -qq; \
+	apt-get install -yqq software-properties-common gnupg
+
+# Install SQL Server
+RUN add-apt-repository "$(curl https://packages.microsoft.com/config/ubuntu/16.04/mssql-server-2019.list)"; \
+	add-apt-repository "$(curl https://packages.microsoft.com/config/ubuntu/16.04/prod.list)"; \
+	curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add -; \
+	apt-get update -qq; \
+	ACCEPT_EULA=Y apt-get install -yqq mssql-server mssql-tools unixodbc-dev
+	
+ENV PATH="/opt/mssql-tools/bin:${PATH}"
+
 # vim:set ft=dockerfile:
