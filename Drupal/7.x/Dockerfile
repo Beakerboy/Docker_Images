@@ -55,7 +55,7 @@ RUN set -eux; \
 		sqlsrv \
 		pdo_mysql \
 		pdo_pgsql \
-		pdo_sqlsrv
+		pdo_sqlsrv \
 		zip \
 	; \
 	\
