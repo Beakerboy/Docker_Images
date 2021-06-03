@@ -35,6 +35,7 @@ RUN set -eux; \
 		opcache \
 		pdo_mysql \
 		pdo_pgsql \
+		pdo_sqlsrv \
 		zip \
 	; \
 	\
