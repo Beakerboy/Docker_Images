@@ -16,6 +16,7 @@ RUN set -eux; \
 		libpng-dev \
 		libpq-dev \
 		libzip-dev \
+		unixodbc-dev \
 	; \
 	\
 	pecl config-set ext_dir /usr/src/php/ext; \
