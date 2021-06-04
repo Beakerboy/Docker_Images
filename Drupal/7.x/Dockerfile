@@ -59,7 +59,13 @@ ENV PATH="/opt/mssql-tools/bin:${PATH}"
 # Install Composer
 RUN curl --silent --show-error "https://getcomposer.org/installer" | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Install Drush
-#RUN composer global require "drush/drush=8.4.8"
+# Install postfix.
+RUN debconf-set-selections <<< "postfix postfix/mailname string localhost"; \
+	debconf-set-selections <<< "postfix postfix/main_mailer_type string 'No configuration'"; \
+	apt-get install --assume-yes postfix
+
+# Install drush.
+RUN cd /var/www/html; \
+	composer require drush/drush:8.4.8
 
 # vim:set ft=dockerfile:
