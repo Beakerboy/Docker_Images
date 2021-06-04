@@ -56,4 +56,10 @@ RUN add-apt-repository "$(curl https://packages.microsoft.com/config/ubuntu/16.0
 	
 ENV PATH="/opt/mssql-tools/bin:${PATH}"
 
+# Install Composer
+RUN curl --silent --show-error "https://getcomposer.org/installer" | php -- --install-dir=/usr/local/bin --filename=composer
+
+# Install Drush
+RUN composer global require "drush/drush=8.4.8"
+
 # vim:set ft=dockerfile:
