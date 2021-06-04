@@ -67,7 +67,7 @@ RUN { \
 	&& apt-get install --assume-yes postfix
 
 # Install drush.
-RUN cd /var/www/html; \
-	composer require drush/drush:8.4.8
+#RUN cd /var/www/html; \
+#	composer require drush/drush:8.4.8
 
 # vim:set ft=dockerfile:
