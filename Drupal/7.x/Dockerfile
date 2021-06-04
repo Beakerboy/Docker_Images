@@ -60,9 +60,11 @@ ENV PATH="/opt/mssql-tools/bin:${PATH}"
 RUN curl --silent --show-error "https://getcomposer.org/installer" | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Install postfix.
-RUN debconf-set-selections <<< "postfix postfix/mailname string localhost"; \
-	debconf-set-selections <<< "postfix postfix/main_mailer_type string 'No configuration'"; \
-	apt-get install --assume-yes postfix
+RUN { \
+		echo postfix postfix/mailname string 'localhost'; \
+		echo postfix postfix/main_mailer_type string 'No configuration'; \
+	} | debconf-set-selections \
+	&& apt-get install --assume-yes postfix
 
 # Install drush.
 RUN cd /var/www/html; \
