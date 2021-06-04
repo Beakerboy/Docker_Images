@@ -60,6 +60,6 @@ ENV PATH="/opt/mssql-tools/bin:${PATH}"
 RUN curl --silent --show-error "https://getcomposer.org/installer" | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Install Drush
-RUN composer global require "drush/drush=8.4.8"
+#RUN composer global require "drush/drush=8.4.8"
 
 # vim:set ft=dockerfile:
