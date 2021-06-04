@@ -66,6 +66,8 @@ RUN { \
 	} | debconf-set-selections \
 	&& apt-get install --assume-yes postfix
 
+RUN pear install pear/PHP_CodeSniffer
+
 # Install drush.
 #RUN cd /var/www/html; \
 #	composer require drush/drush:8.4.8
