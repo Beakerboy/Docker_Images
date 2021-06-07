@@ -80,8 +80,6 @@ RUN set -eux; \
 	rmdir /var/www/html; \
 	ln -sf /opt/drupal /var/www/html; \
 	composer install; \
-	# delete composer cache
-	rm -rf "$COMPOSER_HOME"
 
 ENV PATH=${PATH}:/opt/drupal/vendor/bin
 
