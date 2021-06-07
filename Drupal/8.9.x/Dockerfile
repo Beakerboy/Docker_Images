@@ -72,10 +72,10 @@ COPY --from=composer:1 /usr/bin/composer /usr/local/bin/
 ENV DRUPAL_VERSION 8.9.x
 
 RUN set -eux; \
-  apt-get install -y git; \
-  cd /opt; \
-  git clone https://git.drupalcode.org/project/drupal.git -b $DRUPAL_VERSION drupal
-	chown -R www-data:www-data sites modules themes; 
+	apt-get install -y git; \
+	cd /opt; \
+	git clone https://git.drupalcode.org/project/drupal.git -b $DRUPAL_VERSION drupal; \
+	chown -R www-data:www-data sites modules themes; \
 	rmdir /var/www/html; \
 	ln -sf /opt/drupal /var/www/html; \
   composer install
