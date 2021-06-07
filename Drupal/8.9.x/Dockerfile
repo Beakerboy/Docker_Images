@@ -69,12 +69,15 @@ RUN { \
 COPY --from=composer:1 /usr/bin/composer /usr/local/bin/
 
 # https://www.drupal.org/node/3060/release
-ENV DRUPAL_VERSION 8.9.x
+ENV DRUPAL_VERSION 8.9.x-dev
 
 RUN set -eux; \
-	apt-get install -y git; \
 	cd /opt; \
-	git clone https://git.drupalcode.org/project/drupal.git -b $DRUPAL_VERSION drupal; \
+	mkdir drupal; \
+	cd drupal; \
+	curl -fSL "https://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar.gz" -o drupal.tar.gz; \
+	tar -xz --strip-components=1 -f drupal.tar.gz; \
+	rm drupal.tar.gz; \
 	chown -R www-data:www-data sites modules themes; \
 	rmdir /var/www/html; \
 	ln -sf /opt/drupal /var/www/html; \
