@@ -57,7 +57,7 @@ RUN add-apt-repository "$(curl https://packages.microsoft.com/config/ubuntu/16.0
 ENV PATH="/opt/mssql-tools/bin:${PATH}"
 
 # Install Composer
-RUN curl --silent --show-error "https://getcomposer.org/installer" | php -- --install-dir=/usr/local/bin --filename=composer
+COPY --from=composer:1 /usr/bin/composer /usr/local/bin/
 
 # Install postfix.
 RUN { \
