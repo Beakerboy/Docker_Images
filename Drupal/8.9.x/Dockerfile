@@ -71,10 +71,8 @@ COPY --from=composer:1 /usr/bin/composer /usr/local/bin/
 # https://www.drupal.org/node/3060/release
 ENV DRUPAL_VERSION 8.9.x-dev
 
+WORKDIR /opt/drupal
 RUN set -eux; \
-	cd /opt; \
-	mkdir drupal; \
-	cd drupal; \
 	curl -fSL "https://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar.gz" -o drupal.tar.gz; \
 	tar -xz --strip-components=1 -f drupal.tar.gz; \
 	rm drupal.tar.gz; \
