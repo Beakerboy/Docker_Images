@@ -79,7 +79,7 @@ RUN set -eux; \
 	chown -R www-data:www-data sites modules themes; \
 	rmdir /var/www/html; \
 	ln -sf /opt/drupal /var/www/html; \
-	composer install; \
+	composer install
 
 ENV PATH=${PATH}:/opt/drupal/vendor/bin
 
