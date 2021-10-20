@@ -27,7 +27,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v3
         with:
-          images: beakerbouy/drupal-9.3.x-sqlsrv
+          images: beakerboy/drupal-9.3.x-sqlsrv
 
       - name: Build and push
         uses: docker/build-push-action@v2
