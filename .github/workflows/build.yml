@@ -3,7 +3,7 @@ name: Publish DockerHub image
 on:
   push:
     branches:
-      - 'Drupal-9.3.x'
+      - 'Drupal-9.3.x-pdo5.10'
     tags:
       - '*'
   pull_request:
