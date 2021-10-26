@@ -3,12 +3,12 @@ name: Publish DockerHub image
 on:
   push:
     branches:
-      - 'Drupal-9.2.x-pdo5.10'
+      - 'Drupal-9.1.x-pdo5.10'
     tags:
       - '*'
   pull_request:
     branches:
-      - 'Drupal-9.2.x-pdo5.10'
+      - 'Drupal-9.1.x-pdo5.10'
 
 jobs:
   build-container:
@@ -27,7 +27,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v3
         with:
-          images: beakerboy/drupal-9.2.x-sqlsrv
+          images: beakerboy/drupal-9.1.x-sqlsrv
 
       - name: Build and push
         uses: docker/build-push-action@v2
