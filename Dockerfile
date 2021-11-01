@@ -75,7 +75,7 @@ ENV DRUPAL_VERSION 9.2.x-dev
 
 WORKDIR /opt
 RUN set -eux; \
-        git fetch -b 9.2.x https://git.drupalcode.org/project/drupal.git drupal; \
+        git clone -b 9.2.x https://git.drupalcode.org/project/drupal.git drupal; \
 	#curl -fSL "https://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar.gz" -o drupal.tar.gz; \
 	#tar -xz --strip-components=1 -f drupal.tar.gz; \
 	#rm drupal.tar.gz; \
