@@ -71,14 +71,11 @@ RUN { \
 COPY --from=composer:1 /usr/bin/composer /usr/local/bin/
 
 # https://www.drupal.org/node/3060/release
-ENV DRUPAL_VERSION 9.2.x-dev
+ENV DRUPAL_VERSION 9.2.x
 
 WORKDIR /opt
 RUN set -eux; \
-        git clone -b 9.2.x https://git.drupalcode.org/project/drupal.git drupal; \
-	#curl -fSL "https://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar.gz" -o drupal.tar.gz; \
-	#tar -xz --strip-components=1 -f drupal.tar.gz; \
-	#rm drupal.tar.gz; \
+        git clone -b ${DRUPAL_VERSION} https://git.drupalcode.org/project/drupal.git drupal; \
 	chown -R www-data:www-data drupal/sites drupal/modules drupal/themes; \
 	rmdir /var/www/html; \
 	ln -sf /opt/drupal /var/www/html; \
