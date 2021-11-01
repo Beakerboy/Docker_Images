@@ -72,15 +72,16 @@ COPY --from=composer:1 /usr/bin/composer /usr/local/bin/
 # https://www.drupal.org/node/3060/release
 ENV DRUPAL_VERSION 9.2.x-dev
 
-WORKDIR /opt/drupal
+WORKDIR /opt
 RUN set -eux; \
-        git fetch -b 9.2.x https://git.drupalcode.org/project/drupal.git; \
+        git fetch -b 9.2.x https://git.drupalcode.org/project/drupal.git drupal; \
 	#curl -fSL "https://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar.gz" -o drupal.tar.gz; \
 	#tar -xz --strip-components=1 -f drupal.tar.gz; \
 	#rm drupal.tar.gz; \
-	chown -R www-data:www-data sites modules themes; \
+	chown -R www-data:www-data drupal/sites drupal/modules drupal/themes; \
 	rmdir /var/www/html; \
 	ln -sf /opt/drupal /var/www/html; \
+        cd drupal; \
 	composer install
 
 ENV PATH=${PATH}:/opt/drupal/vendor/bin
