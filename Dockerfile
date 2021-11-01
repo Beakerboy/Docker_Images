@@ -71,11 +71,11 @@ RUN { \
 COPY --from=composer:1 /usr/bin/composer /usr/local/bin/
 
 # https://www.drupal.org/node/3060/release
-ENV DRUPAL_VERSION 9.3.x-dev
+ENV DRUPAL_VERSION 9.3.x
 
 WORKDIR /opt
 RUN set -eux; \
-        git clone -b 9.3.x https://git.drupalcode.org/project/drupal.git drupal; \
+        git clone -b ${DRUPAL_VERSION} https://git.drupalcode.org/project/drupal.git drupal; \
 	chown -R www-data:www-data drupal/sites drupal/modules drupal/themes; \
 	rmdir /var/www/html; \
 	ln -sf /opt/drupal /var/www/html; \
