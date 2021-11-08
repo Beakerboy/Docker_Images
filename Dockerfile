@@ -82,7 +82,7 @@ RUN set -eux; \
 	ln -sf /opt/drupal /var/www/html; \
         cd drupal; \
 	composer install; \
-	composer require mglaman/phpstan-drupal:^0.12.15 phpstan/phpstan-phpunit:^0.12.22 phpstan/phpstan:^0.12.99 jangregor/phpstan-prophecy drupal/coder; \
+	composer require mglaman/phpstan-drupal:^0.12.15 phpstan/phpstan-phpunit:^0.12.22 phpstan/phpstan:^0.12.99 jangregor/phpstan-prophecy drupal/coder
 
 ENV PATH=${PATH}:/opt/drupal/vendor/bin
 
