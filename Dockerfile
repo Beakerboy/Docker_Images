@@ -41,6 +41,7 @@ RUN set -eux; \
 		pdo_pgsql \
 		zip \
 		pdo_sqlsrv-5.10.0beta1 \
+		pcov \
 	; \
 	\
 # reset apt-mark's "manual" list so that "purge --auto-remove" will remove all build dependencies
@@ -68,7 +69,7 @@ RUN { \
 		echo 'opcache.fast_shutdown=1'; \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
-COPY --from=composer:1 /usr/bin/composer /usr/local/bin/
+COPY --from=composer:2 /usr/bin/composer /usr/local/bin/
 
 # https://www.drupal.org/node/3060/release
 ENV DRUPAL_VERSION 9.2.x
@@ -81,6 +82,7 @@ RUN set -eux; \
 	ln -sf /opt/drupal /var/www/html; \
         cd drupal; \
 	composer install
+	composer require mglaman/phpstan-drupal:^0.12.15 phpstan/phpstan-phpunit:^0.12.22 phpstan/phpstan:^0.12.99 jangregor/phpstan-prophecy drupal/coder
 
 ENV PATH=${PATH}:/opt/drupal/vendor/bin
 
