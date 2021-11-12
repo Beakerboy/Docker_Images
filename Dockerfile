@@ -41,6 +41,7 @@ RUN set -eux; \
 		pdo_pgsql \
 		zip \
 		pdo_sqlsrv-5.10.0beta1 \
+                yaml \
 		pcov \
 	; \
 	\
