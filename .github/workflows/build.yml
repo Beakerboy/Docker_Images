@@ -3,12 +3,12 @@ name: Publish DockerHub image
 on:
   push:
     branches:
-      - 'Drupal-9.2.x-pcov'
+      - 'Drupal-9.2.x-yaml'
     tags:
       - '*'
   pull_request:
     branches:
-      - 'Drupal-9.2.x-pcov'
+      - 'Drupal-9.2.x-yaml'
 
 jobs:
   build-container:
