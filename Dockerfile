@@ -42,6 +42,7 @@ RUN set -eux; \
 		zip \
 		pdo_sqlsrv-5.10.0beta1 \
 		yaml \
+		pcov \
 	; \
 	\
 # reset apt-mark's "manual" list so that "purge --auto-remove" will remove all build dependencies
@@ -81,7 +82,8 @@ RUN set -eux; \
 	rmdir /var/www/html; \
 	ln -sf /opt/drupal /var/www/html; \
         cd drupal; \
-	composer install
+	composer install; \
+	composer require mglaman/phpstan-drupal phpstan/phpstan-phpunit phpstan/phpstan jangregor/phpstan-prophecy drupal/coder
 
 ENV PATH=${PATH}:/opt/drupal/vendor/bin
 
