@@ -4,12 +4,6 @@ on:
   push:
     branches:
       - 'mssql-2017'
-    name: Publish DockerHub image
-
-on:
-  push:
-    branches:
-      - 'mssql-2017'
     tags:
       - '*'
   pull_request:
@@ -42,34 +36,3 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }} tags:
-      - '*'
-  pull_request:
-    branches:
-      - 'mssql-2017'
-
-jobs:
-  build-container:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Login to DockerHub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@v3
-        with:
-          images: beakerboy/drupal-8.9.x-sqlsrv
-
-      - name: Build and push
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
