@@ -27,6 +27,7 @@ RUN set -eux; \
 		libpq-dev \
 		libzip-dev \
 		git \
+                sudo \
 	; \
 	\
 	docker-php-ext-configure gd \
@@ -47,7 +48,7 @@ RUN set -eux; \
 	\
 # reset apt-mark's "manual" list so that "purge --auto-remove" will remove all build dependencies
 	apt-mark auto '.*' > /dev/null; \
-	apt-mark manual git; \
+	apt-mark manual git sudo; \
 	apt-mark manual $savedAptMark; \
 	ldd "$(php -r 'echo ini_get("extension_dir");')"/*.so \
 		| awk '/=>/ { print $3 }' \
