@@ -73,7 +73,6 @@ RUN { \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
 RUN { \
-                echo 'extension=apcu.so'; \
                 echo 'apc.enable_cli=1'; \
                 echo 'apc.enable=1'; \
         } > /usr/local/etc/php/conf.d/apcu-recommended.ini
