@@ -26,6 +26,8 @@ RUN set -eux; \
 		libpng-dev \
 		libpq-dev \
 		libzip-dev \
+                git \
+                sudo \
 	; \
 	\
 	docker-php-ext-configure gd \
@@ -40,10 +42,14 @@ RUN set -eux; \
 		pdo_pgsql \
 		zip \
 		pdo_sqlsrv-5.10.0beta1 \
+                yaml \
+		pcov \
+                apcu \
 	; \
 	\
 # reset apt-mark's "manual" list so that "purge --auto-remove" will remove all build dependencies
 	apt-mark auto '.*' > /dev/null; \
+        apt-mark manual git sudo; \
 	apt-mark manual $savedAptMark; \
 	ldd "$(php -r 'echo ini_get("extension_dir");')"/*.so \
 		| awk '/=>/ { print $3 }' \
@@ -66,20 +72,26 @@ RUN { \
 		echo 'opcache.fast_shutdown=1'; \
 	} > /usr/local/etc/php/conf.d/opcache-recommended.ini
 
-COPY --from=composer:1 /usr/bin/composer /usr/local/bin/
+RUN { \
+                echo 'apc.enable_cli=1'; \
+                echo 'apc.enable=1'; \
+        } > /usr/local/etc/php/conf.d/apcu-recommended.ini
+
+COPY --from=composer:2 /usr/bin/composer /usr/local/bin/
 
 # https://www.drupal.org/node/3060/release
 ENV DRUPAL_VERSION 9.4.x-dev
 
-WORKDIR /opt/drupal
+WORKDIR /opt
 RUN set -eux; \
-	curl -fSL "https://ftp.drupal.org/files/projects/drupal-${DRUPAL_VERSION}.tar.gz" -o drupal.tar.gz; \
-	tar -xz --strip-components=1 -f drupal.tar.gz; \
-	rm drupal.tar.gz; \
-	chown -R www-data:www-data sites modules themes; \
+        git clone -b ${DRUPAL_VERSION} https://git.drupalcode.org/project/drupal.git drupal; \
+	chown -R www-data:www-data drupal/sites drupal/modules drupal/themes; \
 	rmdir /var/www/html; \
 	ln -sf /opt/drupal /var/www/html; \
 	composer install
+        cd drupal; \
+	composer install; \
+	composer require mglaman/phpstan-drupal phpstan/phpstan-phpunit phpstan/phpstan jangregor/phpstan-prophecy drupal/coder
 
 ENV PATH=${PATH}:/opt/drupal/vendor/bin
 
