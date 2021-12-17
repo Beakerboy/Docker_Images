@@ -88,7 +88,6 @@ RUN set -eux; \
 	chown -R www-data:www-data drupal/sites drupal/modules drupal/themes; \
 	rmdir /var/www/html; \
 	ln -sf /opt/drupal /var/www/html; \
-	composer install
         cd drupal; \
 	composer install; \
 	composer require mglaman/phpstan-drupal phpstan/phpstan-phpunit phpstan/phpstan jangregor/phpstan-prophecy drupal/coder
