@@ -5,7 +5,7 @@
 #
 
 # from https://www.drupal.org/docs/system-requirements/php-requirements
-FROM php:7.4-apache-buster
+FROM php:8.0-apache-buster
 
 # grab a copy of install-php-extensions
 COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
@@ -80,7 +80,7 @@ RUN { \
 COPY --from=composer:2 /usr/bin/composer /usr/local/bin/
 
 # https://www.drupal.org/node/3060/release
-ENV DRUPAL_VERSION 9.3.x
+ENV DRUPAL_VERSION 10.0.x
 
 WORKDIR /opt
 RUN set -eux; \
