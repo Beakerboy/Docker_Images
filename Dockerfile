@@ -41,7 +41,7 @@ RUN set -eux; \
 		pdo_mysql \
 		pdo_pgsql \
 		zip \
-		pdo_sqlsrv-5.10.0beta1 \
+		pdo_sqlsrv-5.10.0beta2 \
 		yaml \
 		pcov \
                 apcu \
