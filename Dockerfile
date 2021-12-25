@@ -38,8 +38,6 @@ RUN set -eux; \
 	install-php-extensions \
 		gd \
 		opcache \
-		pdo_mysql \
-		pdo_pgsql \
 		zip \
 		pdo_sqlsrv-5.10.0beta2 \
 		yaml \
