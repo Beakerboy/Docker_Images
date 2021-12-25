@@ -39,7 +39,6 @@ RUN set -eux; \
 		gd \
 		opcache \
 		zip \
-		pdo_sqlsrv-5.10.0beta2 \
 		yaml \
 		pcov \
                 apcu \
