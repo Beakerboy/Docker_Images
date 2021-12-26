@@ -60,7 +60,7 @@ RUN set -eux; \
 	rm -rf /var/lib/apt/lists/*
 RUN set -eux; \
         install-php-extensions \
-		pdo_sqlsrv-5.10.0beta1 \
+		pdo_sqlsrv \
         ;
 # set recommended PHP.ini settings
 # see https://secure.php.net/manual/en/opcache.installation.php
