@@ -38,6 +38,9 @@ RUN set -eux; \
 	install-php-extensions \
 		gd \
 		opcache \
+                pdo_mysql \
+		pdo_pgsql \
+                pdo_sqlsrv \
 		zip \
 		yaml \
 		pcov \
@@ -58,10 +61,6 @@ RUN set -eux; \
 	\
 	apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false; \
 	rm -rf /var/lib/apt/lists/*
-RUN set -eux; \
-        install-php-extensions \
-		pdo_sqlsrv \
-        ;
 # set recommended PHP.ini settings
 # see https://secure.php.net/manual/en/opcache.installation.php
 RUN { \
